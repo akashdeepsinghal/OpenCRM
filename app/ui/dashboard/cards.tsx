@@ -6,6 +6,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchCardData } from '@/app/lib/data';
+import Link from 'next/link';
 
 const iconMap = {
   collected: BanknotesIcon,
@@ -27,12 +28,17 @@ export default async function CardWrapper() {
 
       <Card title="Collected" value={totalPaidInvoices} type="collected" />
       <Card title="Pending" value={totalPendingInvoices} type="pending" />
-      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
-      <Card
-        title="Total Customers"
-        value={numberOfCustomers}
-        type="customers"
-      />
+      <Link href={'/dashboard/invoices'}>
+        <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
+      </Link>
+
+      <Link href={'/dashboard/customers'}>
+        <Card
+          title="Total Customers"
+          value={numberOfCustomers}
+          type="customers"
+        />
+      </Link>
     </>
   );
 }
