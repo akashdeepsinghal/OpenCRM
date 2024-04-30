@@ -9,8 +9,10 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
+import { unstable_noStore } from 'next/cache';
 
 export async function fetchRevenue() {
+  unstable_noStore();
   // Add noStore() here to prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
 
@@ -19,7 +21,7 @@ export async function fetchRevenue() {
     // Don't do this in production :)
 
     console.log('Fetching revenue data...');
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
@@ -35,7 +37,7 @@ export async function fetchRevenue() {
 export async function fetchLatestInvoices() {
   try {
     console.log('Fetching invoices data...');
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
 
     const data = await sql<LatestInvoiceRaw>`
       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
@@ -59,7 +61,7 @@ export async function fetchLatestInvoices() {
 export async function fetchCardData() {
   try {
     console.log('Fetching cards data...');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
@@ -79,6 +81,7 @@ export async function fetchCardData() {
 
     console.log('Data fetch completed after 1 second.');
 
+    // console.log(data);
     const numberOfInvoices = Number(data[0].rows[0].count ?? '0');
     const numberOfCustomers = Number(data[1].rows[0].count ?? '0');
     const totalPaidInvoices = formatCurrency(data[2].rows[0].paid ?? '0');
